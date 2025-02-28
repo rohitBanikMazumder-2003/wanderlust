@@ -3,7 +3,7 @@ require('dotenv').config();
 const express=require('express');
 const app=express()
 const mongoose=require('mongoose')
-
+const PORT = process.env.PORT || 3000
 const path=require("path")
 
 const methodOverride=require("method-override")
@@ -98,6 +98,9 @@ app.use("/listing",listingsRouter)
 app.use("/listings/:id/reviews",reviewsRouter)
 app.use("/",userRouter)
 
+app.get("/", (req, res) => {
+  res.render("listings/index"); // Ensure you have a 'home.ejs' file in the 'views' folder
+});
 
 
 app.all("*",(req,res,next)=>{
@@ -109,6 +112,6 @@ app.use((err,req,res,next)=>{
   res.status(statusCode).render("error.ejs",{message})
 })
 
-app.listen(3000,()=>{
-  console.log("app listening on port 3000")
+app.listen(PORT,()=>{
+  console.log(`app listening on port ${PORT}`)
 })
